@@ -1,0 +1,216 @@
+WindowManager:
+    MainScreen:
+    CalcScreen:
+    TableScreen:
+    dfpScreen:
+
+<MainScreen>:
+    id:first
+    name:'mainwin'
+    adding:adding
+    adding3:adding3
+
+    FloatLayout:
+        Label:
+            text: "Chi-Square\nInput Observed&Expected"
+            markup: True
+            bold:True
+            halign:'center'
+            size_hint: 1, 0.1
+            text_size:root.width, None
+            pos_hint: {"x": 0, "y":0.88}
+            font_size: (self.width*0.035+self.height*0.06)
+        TextInput:
+            id: adding
+            multiline:False
+            size_hint: 0.3, 0.1
+            pos_hint: {"x": 0.2, "y":0.75-0.01}
+            font_size: (self.height*0.4)
+        TextInput:
+            id: deleting
+            multiline:False
+            size_hint: 0.3, 0.1
+            pos_hint: {"x": 0.5, "y":0.75-0.01}
+            font_size: (self.height*0.4)
+
+        Label:
+            id:adding2
+            text: root.adding2
+            multiline:False
+            text_size:self.size
+            color: 1,1,1,1
+            size_hint: 0.8, 0.15
+            pos_hint: {"x":0.1, "y":0.56}
+            font_size: (20)
+
+        Button:
+            text:'Add'
+            size_hint: 0.3, 0.1
+            pos_hint: {"x": 0.2, "y":0.65-0.01}
+            font_size: (self.height*0.6)
+            on_release:
+                root.btn()
+                root.changeTxt()
+
+        Button:
+            text:'Delete'
+            size_hint: 0.3, 0.1
+            pos_hint: {"x": 0.5, "y":0.65-0.01}
+            font_size:(self.height*0.5)
+            on_release:
+                root.deleteVal(deleting)
+                root.changeTxt()
+
+    FloatLayout:
+        TextInput:
+            id: adding3
+            multiline:False
+            size_hint: 0.3, 0.1
+            pos_hint: {"x": 0.2, "y":0.4-0.01}
+            font_size: (self.height*0.4)
+
+        TextInput:
+            id: deleting2
+            multiline:False
+            size_hint: 0.3, 0.1
+            pos_hint: {"x": 0.5, "y":0.4-0.01}
+            font_size: (self.height*0.4)
+
+        Label:
+            id:adding4
+            text: root.adding4
+            multiline:False
+            text_size:self.size
+            color: 1,1,1,1
+            size_hint: 0.8, 0.15
+            pos_hint: {"x":0.1, "y":0.2-0.01}
+            font_size: (20)
+
+        Button:
+            text:'Add'
+            size_hint: 0.3, 0.1
+            pos_hint: {"x": 0.2, "y":0.3-0.01}
+            font_size: (self.height*0.6)
+            on_release:
+                root.btn2()
+                root.changeTxt2()
+
+        Button:
+            text:'Delete'
+            size_hint: 0.3, 0.1
+            pos_hint: {"x": 0.5, "y":0.3-0.01}
+            font_size:(self.height*0.5)
+            on_release:
+                root.deleteVal2(deleting)
+                root.changeTxt2()
+
+        Button:
+            text:'Calculate'
+            size_hint: 1, 0.1
+            pos_hint: {"x": 0, "y":0}
+            font_size:(self.height*0.6)
+            on_release:
+                root.calc()
+                root.result()
+                app.root.current='dfp'
+                root.manager.transition.direction="left"
+
+
+<dfpScreen>:
+    name:'dfp'
+    GridLayout:
+        inputdf: inputdf
+        inp:inp
+        cols:2
+        Label:
+            text: "Degree of Freedom:"
+            font_size:(self.height*0.05+self.width*0.05)
+
+        TextInput:
+            id: inputdf
+            multiline:False
+            font_size:(30)
+        Label:
+            text: "P value:"
+            font_size:(self.height*0.05+self.width*0.04)
+        TextInput:
+            id:inp
+            multiline:False
+            font_size:(30)
+        Button:
+            text: "Back"
+            font_size:(self.height*0.1+self.width*0.1)
+            on_release:
+                app.root.current='mainwin'
+                root.manager.transition.direction = 'right'
+        Button:
+            text: "Check"
+            font_size:(self.height*0.1+self.width*0.1)
+            on_release:
+                root.result(root.dfbtn(inputdf.text))
+                app.root.current='calcwin'
+                root.manager.transition.direction = 'left'
+
+<CalcScreen>:
+    id: second
+    name:'calcwin'
+    label1:label1
+    chibel:chibel
+    GridLayout:
+        cols:2
+        Label:
+            text: "Chi-Square\nValue:"
+            font_size: (self.height*0.07+self.width*0.07)
+        Label:
+            id:label1
+            text: ""
+            multiline:False
+            color: 1,1,1,1
+            font_size: (self.height*0.07+self.width*0.07)
+        Label:
+            text: "Null\nHypotheses:"
+            font_size: (self.height*0.07+self.width*0.07)
+        Label:
+            id:chibel
+            text: ""
+            font_size: (self.height*0.07+self.width*0.07)
+        Button:
+            text:"Go Back"
+            pos_hint:{"x":0, "y":0.2}
+            size_hint: 1,0.2
+            font_size:(self.height*0.3 + self.width*0.05)
+            on_release:
+                app.root.current='dfp'
+                root.manager.transition.direction="right"
+        Button:
+            text:"Check Table"
+            pos_hint:{"x":0.5, "y":0.2}
+            size_hint: 1,0.2
+            font_size:(self.height*0.3 + self.width*0.05)
+            on_release:
+                app.root.current='tbl'
+                root.manager.transition.direction="left"
+
+<TableScreen>:
+    name:'tbl'
+    RelativeLayout:
+        Image:
+            source:'chi.png'
+            allow_stretch:True
+            size_hint:(1,1)
+            pos_hint:{"y":0}
+    FloatLayout:
+        Button:
+            text: "Back"
+            size_hint: 0.5, 0.1
+            pos_hint: {"x":0, "y":0}
+            on_release:
+                app.root.current = 'calcwin'
+                root.manager.transition.direction = 'right'
+        Button:
+            text: "Input"
+            size_hint: 0.5, 0.1
+            pos_hint: {"x":0.5, "y":0}
+            on_release:
+                app.root.current = 'mainwin'
+                root.manager.transition.direction = 'left'
